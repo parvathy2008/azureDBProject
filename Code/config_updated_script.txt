@@ -1,0 +1,15 @@
+    storageAccountName = "databricksproject"
+    storageAccountAccessKey = "key"
+    blobContainerName ="deltalake"
+    if not any(mount.mountPoint == '/mnt/Deltalake/' for mount in dbutils.fs.mounts()):
+        try:
+            dbutils.fs.mount(n,
+            source = "wasbs://{}@{}.blob.core.windows.net".format(blobContainerName, storageAccountName),
+            mount_point = "/mnt/Deltalake",
+            extra_configs = {'fs.azure.account.key.' + storageAccountName + '.blob.core.windows.net': storageAccountAccessKey}
+      )
+        except Exception as e:
+            print(e)
+            print("already mounted. Try to unmount first")
+   
+  
